@@ -36,3 +36,315 @@
     transform: rotate(360deg);
   }
 }
+.axis {
+  position: absolute;
+  display: flex;
+}
+
+.tick {
+  position: relative;
+  flex-grow: 1;
+}
+
+.tick:last-child {
+  flex-grow: 0;
+}
+
+.tick::after {
+  content: '';
+  position: absolute;
+  background: black;
+  width: 2px;
+  height: 100%;
+  left: 50%;
+}
+
+.tick-label {
+  position: absolute;
+  font-size: 12px;
+}
+
+.x-axis {
+  left: 0;
+  bottom: 0;
+  width: calc(100% - 2px);
+  align-items: flex-end;
+}
+
+.x-axis .tick::after {
+  bottom: 0;
+  height: 5px;
+}
+
+.x-axis .tick-label {
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.y-axis {
+  top: 0;
+  left: 0;
+  height: 100%;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+}
+
+.y-axis .tick {
+  flex-grow: 1;
+}
+
+.y-axis .tick:last-child {
+  flex-grow: 0;
+}
+
+.y-axis .tick::after {
+  right: 0;
+  width: 5px;
+  height: 2px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.y-axis .tick-label {
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
+#graph {
+  position: relative;
+  /* width: 100%; */
+  height: 70%;
+  /* border: 5px solid rgb(0, 0, 0); */
+  background: white;
+  border-radius: 5px;
+}
+
+.slider {
+  width: 150%;
+  margin: 0;
+  ;
+}
+
+select {
+  padding: 5px;
+  border: 1px solid #b3b0da; /* Border color with a mix of blue and purple */
+  border-radius: 5px;
+  background-color: #f3f3f3;
+  cursor: pointer;
+  color: #413e98; /* Darker shade of purple */
+}
+
+/* Divider */
+td[colspan="2"] {
+  text-align: center;
+  border-bottom: 2px solid #696798; /* Darker shade of purple */
+}
+
+/* Crosshair styles */
+.crosshair-vertical, .crosshair-horizontal {
+  position: absolute;
+  background-color: black;
+  pointer-events: none; /* Ensures the lines don't interfere with any interactions */
+}
+.crosshair-vertical {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+  top: 0;
+}
+.crosshair-horizontal {
+  height: 1px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+}
+.graph-text-box {
+  position: absolute;
+  background: linear-gradient(160deg, rgba(142, 138, 177, 0.9), rgba(60, 58, 120, 0.9)); /* Gradient with semi-transparent shades of purple */
+  padding: 5px;
+  /* border: 1px solid #b3b0da; */
+  border-radius: 5px;
+  color: white; /* Adjusted text color for better readability on the gradient background */
+}
+
+
+.top-left-box {
+  top: 10px;
+  left: 10px;
+}
+
+.top-right-box {
+  top: 10px;
+  right: 10px;
+}
+
+.bottom-left-box {
+  bottom: 10px;
+  left: 10px;
+}
+
+.bottom-right-box {
+  bottom: 10px;
+  right: 10px;
+}
+.graph-description-box {
+  /* margin-top: 20px; */
+  padding: 10px;
+  /* border: 1px solid #b3b0da; */
+  border-radius: 5px;
+  background: rgb(158, 101, 179);
+  color: rgb(19, 10, 10); /* Adjusted text color for better readability on the gradient background */
+}
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.left, .right {
+  width: 100%;
+  border: 1px solid black;
+  /* padding: 10px; */
+}
+table {
+  width: 100%;
+}
+td {
+  padding: 10px;
+}
+
+
+.slider {
+  width: 100%;
+  background: repeating-linear-gradient(
+      to right,
+      #ddd,
+      #ddd 2px,  /* Increased width of the tick mark */
+      #fff 2px,
+      #fff 10%   /* Adjusted spacing between tick marks to represent 10 units */
+  );
+}
+.initiative-controls {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0;
+  /* background-color: #f5f5f5; */
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.initiative-controls button {
+  padding: 10px 20px;
+  border: none;
+  /* border-radius: 5px; */
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Color for the create button */
+#createInitiative {
+  background-color: #4CAF50; /* Green */
+  /* color: white; */
+}
+
+/* Color for the delete button */
+#deleteInitiative {
+  background-color: #F44336; /* Red */
+  /* color: white; */
+}
+
+/* Color for the rename button */
+#renameInitiative {
+  background-color: #FFC107; /* Amber */
+  color: black;
+}
+#clearButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  color: rgb(255, 255, 255);
+  background: linear-gradient(45deg, #ff7e5f, #feb47b);
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+
+#clearButton:hover {
+  transform: scale(1.05);
+}
+
+#clearButton:active {
+  transform: scale(1);
+}
+/* The Modal (background) */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  padding-top: 60px;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Error Message */
+.error-message {
+  color: red;
+  font-weight: bold;
+}
+#initiativeControls {
+  display: flex;
+  align-items: center;
+}
+
+#initiativeControls > * {
+  margin-right: 10px;
+}
+.black-background {
+  background-color: black;
+  color: white; /* Optional: To make the text readable */
+}
+.green-background {
+  background-color: rgb(137, 169, 145);
+  color: white; /* Optional: To make the text readable */
+}
+.orange-background {
+  background-color: rgb(243, 118, 41);
+  color: white; /* Optional: To make the text readable */
+}
+aside img {
+  width: 150px;
+  height: auto;
+}
+.current-initiative {
+  font-size: 24px;
+  font-weight: bold;
+}
+
