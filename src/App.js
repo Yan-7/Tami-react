@@ -3,790 +3,790 @@ import './App.css';
 
 function App() {
 
-// import { createClient } from '@supabase/supabase-js'
+  // import { createClient } from '@supabase/supabase-js'
 
 
-// const supabaseUrl = 'https://qngmdybyrtcajqjohpnt.supabase.co'
-// const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ21keWJ5cnRjYWpxam9ocG50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYzMjE2NzEsImV4cCI6MjAxMTg5NzY3MX0.Jd6gPs09nEaWIIqsmO4ysYYzaW7hgQtRSxJ4EYRsRoA'
-// const supabase = createClient(supabaseUrl, supabaseKey)
+  // const supabaseUrl = 'https://qngmdybyrtcajqjohpnt.supabase.co'
+  // const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ21keWJ5cnRjYWpxam9ocG50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYzMjE2NzEsImV4cCI6MjAxMTg5NzY3MX0.Jd6gPs09nEaWIIqsmO4ysYYzaW7hgQtRSxJ4EYRsRoA'
+  // const supabase = createClient(supabaseUrl, supabaseKey)
 
-// Initialize an empty object to store the state of goals and initiatives
-let goalState = {};
-// Declare selectedGoal as a global variable
-let selectedGoal;
+  // Initialize an empty object to store the state of goals and initiatives
+  let goalState = {};
+  // Declare selectedGoal as a global variable
+  let selectedGoal;
 
 
-// Function to save goalState to localStorage
-function saveData() {
-  try {
-    localStorage.setItem("goalState", JSON.stringify(goalState));
-  } catch (e) {
-    console.error("Failed to save data to localStorage:", e);
-    // showModal("Failed to save data. Storage might be full.");
-  }
-}
-// Function to clear saved data from localStorage
-function clearSavedData() {
-  console.log("clearSavedData function called");
-  localStorage.removeItem("goalState");
-}
-// Event listener for DOMContentLoaded
-document.addEventListener("DOMContentLoaded", function () {
-  // Script to load saved parameter names from localStorage
-  document.querySelectorAll("td").forEach((td, index) => {
-    const savedName = localStorage.getItem(`paramName${index}`);
-    if (savedName) {
-      td.firstChild.textContent = savedName;
+  // Function to save goalState to localStorage
+  function saveData() {
+    try {
+      localStorage.setItem("goalState", JSON.stringify(goalState));
+    } catch (e) {
+      console.error("Failed to save data to localStorage:", e);
+      // showModal("Failed to save data. Storage might be full.");
     }
-  });
-  // Function to load saved goalState from localStorage
-  function loadData() {
-    const savedGoalState = localStorage.getItem("goalState");
-    if (savedGoalState) {
-      goalState = JSON.parse(savedGoalState);
-    } else {
-      initializeGoalsAndInitiatives();
-      console.log("Initialized goalState with default values:", goalState);
+  }
+  // Function to clear saved data from localStorage
+  function clearSavedData() {
+    console.log("clearSavedData function called");
+    localStorage.removeItem("goalState");
+  }
+  // Event listener for DOMContentLoaded
+  document.addEventListener("DOMContentLoaded", function () {
+    // Script to load saved parameter names from localStorage
+    document.querySelectorAll("td").forEach((td, index) => {
+      const savedName = localStorage.getItem(`paramName${index}`);
+      if (savedName) {
+        td.firstChild.textContent = savedName;
+      }
+    });
+    // Function to load saved goalState from localStorage
+    function loadData() {
+      const savedGoalState = localStorage.getItem("goalState");
+      if (savedGoalState) {
+        goalState = JSON.parse(savedGoalState);
+      } else {
+        initializeGoalsAndInitiatives();
+        console.log("Initialized goalState with default values:", goalState);
+      }
+      updateInitiativesDropdown();
+      replotPoints();
     }
-    updateInitiativesDropdown();
-    replotPoints();
-  }
-  // Function to display error messages
-  function showError(message) {
-    document.getElementById("error-message").textContent = message;
-  }
-
-  // DOM references
-  const sliders = document.querySelectorAll(".slider");
-  const goalDropdown = document.getElementById("goal");
-  goalDropdown.setAttribute("multiple", "multiple");
-  const initativeDropdown = document.getElementById("initative");
-  const graphContainer = document.getElementById("graphContainer");
-  // Buttons for creating, deleting, and renaming initiatives
-  const createInitiativeBtn = document.getElementById("createInitiative");
-  const deleteInitiativeBtn = document.getElementById("deleteInitiative");
-  const renameInitiativeBtn = document.getElementById("renameInitiative");
-  const createGoalBtn = document.getElementById("createGoal");
-  const deleteGoalBtn = document.getElementById("deleteGoal");
-  const editGoalBtn = document.getElementById("editGoal");
-
-  // event listeners for goals
-  createInitiativeBtn.addEventListener("click", createInitiative);
-  deleteInitiativeBtn.addEventListener("click", deleteInitiative);
-  renameInitiativeBtn.addEventListener("click", renameInitiative);
-
-  createGoalBtn.addEventListener("click", createGoal);
-  deleteGoalBtn.addEventListener("click", deleteGoal);
-  editGoalBtn.addEventListener("click", editGoal);
-
-  function createGoal() {
-    // Ask the user for the name of the new goal
-    const goalName = prompt("Please enter the name of the new goal");
-    if (!goalName) {
-      showModal("A goal must have a name");
-      return;
+    // Function to display error messages
+    function showError(message) {
+      document.getElementById("error-message").textContent = message;
     }
 
-    // Check if the goal already exists
-    if (goalState[goalName]) {
-      showModal(
-        `The goal "${goalName}" already exists. Please choose a different name.`
-      );
-      return;
-    }
+    // DOM references
+    const sliders = document.querySelectorAll(".slider");
+    const goalDropdown = document.getElementById("goal");
+    goalDropdown.setAttribute("multiple", "multiple");
+    const initativeDropdown = document.getElementById("initiative");
+    const graphContainer = document.getElementById("graphContainer");
+    // Buttons for creating, deleting, and renaming initiatives
+    const createInitiativeBtn = document.getElementById("createInitiative");
+    const deleteInitiativeBtn = document.getElementById("deleteInitiative");
+    const renameInitiativeBtn = document.getElementById("renameInitiative");
+    const createGoalBtn = document.getElementById("createGoal");
+    const deleteGoalBtn = document.getElementById("deleteGoal");
+    const editGoalBtn = document.getElementById("editGoal");
 
-    // Create a new goal in the goalState object
-    goalState[goalName] = {
-      color: goalColors[goalName] || "#000000", // Default to black if color is not set
-      initiatives: {},
-    };
+    // event listeners for goals
+    createInitiativeBtn.addEventListener("click", createInitiative);
+    deleteInitiativeBtn.addEventListener("click", deleteInitiative);
+    renameInitiativeBtn.addEventListener("click", renameInitiative);
 
-    // Add the new goal to the goal dropdown
-    const option = document.createElement("option");
-    option.value = goalName;
-    option.textContent = goalName;
-    goalDropdown.appendChild(option);
+    createGoalBtn.addEventListener("click", createGoal);
+    deleteGoalBtn.addEventListener("click", deleteGoal);
+    editGoalBtn.addEventListener("click", editGoal);
 
-    // Save the data after creating the goal
-    saveData();
-  }
-
-  function deleteGoal() {
-    const selectedGoal = goalDropdown.value;
-
-    // Confirm with the user before deleting
-    const isConfirmed = window.confirm("Are you sure you want to delete this goal?");
-    if (!isConfirmed) {
-        showModal("Goal deletion cancelled.");
+    function createGoal() {
+      // Ask the user for the name of the new goal
+      const goalName = prompt("Please enter the name of the new goal");
+      if (!goalName) {
+        showModal("A goal must have a name");
         return;
-    }
-
-    // Delete the goal from the goalState object
-    delete goalState[selectedGoal];
-
-    // Remove the goal from the goal dropdown
-    const goalOption = Array.from(goalDropdown.options).find(
-      (option) => option.value === selectedGoal
-    );
-    if (goalOption) {
-        goalDropdown.removeChild(goalOption);
-    }
-
-    showModal("Goal deleted successfully");
-    saveData();
-}
-
-
-  function editGoal() {
-    const selectedGoal = goalDropdown.value;
-
-    // Ask the user for the new name
-    const newName = prompt(
-      `Rename the goal "${selectedGoal}". Please enter the new name:`
-    );
-
-    if (!newName || newName.trim() === "") {
-      showModal("Invalid name provided. Renaming cancelled.");
-      return;
-    }
-
-    if (goalState[newName]) {
-      showModal(
-        "A goal with this name already exists. Please choose a different name."
-      );
-      return;
-    }
-
-    // Rename the goal in the goalState object
-    goalState[newName] = goalState[selectedGoal];
-    delete goalState[selectedGoal];
-
-    // Update the goal in the goal dropdown
-    const goalOption = Array.from(goalDropdown.options).find(
-      (option) => option.value === selectedGoal
-    );
-    if (goalOption) {
-      goalOption.value = newName;
-      goalOption.textContent = newName;
-    }
-
-    showModal("Goal renamed successfully!");
-    saveData();
-  }
-
-  function showModal(message) {
-    alert(message);
-  }
-
-  function createInitiative() {
-    const selectedGoals = Array.from(goalDropdown.selectedOptions).map(
-      (opt) => opt.value
-    );
-
-    // Check if at least one goal is selected
-    if (selectedGoals.length === 0) {
-      showModal("Please select at least one goal first!");
-      return;
-    }
-
-    // Ask the user for the name
-    const initiativeName = prompt(
-      "Please enter the name of the new initiative"
-    );
-    if (!initiativeName) {
-      showModal("An initiative must have a name");
-      return;
-    }
-
-    selectedGoals.forEach((selectedGoal) => {
-      if (!goalState[selectedGoal]) {
-        // Unique color
-        const goalColor = goalColors[selectedGoal] || "#000000"; // Default to white if color is not set
-        goalState[selectedGoal] = { color: goalColor, initiatives: {} };
       }
 
-      // Check if name is already existing
-      if (goalState[selectedGoal].initiatives[initiativeName]) {
+      // Check if the goal already exists
+      if (goalState[goalName]) {
         showModal(
-          `The name "${initiativeName}" already exists under the selected goal(s). Please choose a different name.`
+          `The goal "${goalName}" already exists. Please choose a different name.`
         );
         return;
       }
 
-      // Add the new initiative to the goalState object
-      goalState[selectedGoal].initiatives[initiativeName] = {
-        color: goalState[selectedGoal].color, // Use the color from the corresponding goal
-        x: null,
-        y: null,
+      // Create a new goal in the goalState object
+      goalState[goalName] = {
+        color: goalColors[goalName] || "#000000", // Default to black if color is not set
+        initiatives: {},
       };
-    });
 
-    // Add the new initiative to the initiatives dropdown
-    const option = document.createElement("option");
-    option.value = initiativeName;
-    option.textContent = initiativeName;
-    initativeDropdown.appendChild(option);
-
-    // Optionally, reset the sliders
-    sliders.forEach((slider) => {
-      slider.value = slider.min;
-    });
-
-    // Save the data after creating the initiative
-    saveData();
-  }
-
-  function deleteInitiative() {
-    const selectedGoal = goalDropdown.value;
-    const selectedInitiative = initativeDropdown.value;
-
-    if (
-      !goalState[selectedGoal] ||
-      !goalState[selectedGoal].initiatives[selectedInitiative]
-    ) {
-      showModal("יש לבחור יוזמה למחיקה");
-      return;
-    }
-
-    // Confirm with the user before deleting
-    const isConfirmed = window.confirm("האם אתם בטוחים שאתם רוצים למחוק?");
-    if (!isConfirmed) {
-      showModal("Initiative deletion cancelled.");
-      return;
-    }
-
-    // Delete the initiative from the goalState object
-    delete goalState[selectedGoal].initiatives[selectedInitiative];
-
-    // Remove the initiative from the initiatives dropdown
-    const initiativeOption = Array.from(initativeDropdown.options).find(
-      (option) => option.value === selectedInitiative
-    );
-    if (initiativeOption) {
-      initativeDropdown.removeChild(initiativeOption);
-    }
-
-    // Clear the graph point for this initiative
-    const existingPoint = document.getElementById(
-      `point-${selectedInitiative}`
-    );
-    if (existingPoint) {
-      graphContainer.removeChild(existingPoint);
-    }
-
-    showModal("היוזמה נמחקה בהצלחה");
-    saveData();
-}
-
-
-  function renameInitiative() {
-    const selectedGoal = goalDropdown.value;
-    const selectedInitiative = initativeDropdown.value;
-
-    if (
-      !goalState[selectedGoal] ||
-      !goalState[selectedGoal].initiatives[selectedInitiative]
-    ) {
-      showModal("Please select a valid initiative to rename!");
-      return;
-    }
-
-    // Ask the user for the new name
-    const newName = prompt(
-      `Rename the initiative "${selectedInitiative}". Please enter the new name:`
-    );
-
-    if (!newName || newName.trim() === "") {
-      alert("Invalid name provided. Renaming cancelled.");
-      return;
-    }
-
-    if (goalState[selectedGoal][newName]) {
-      alert(
-        "An initiative with this name already exists. Please choose a different name."
-      );
-      return;
-    }
-
-    // Rename the initiative in the goalState object
-    goalState[selectedGoal].initiatives[newName] =
-      goalState[selectedGoal].initiatives[selectedInitiative];
-    delete goalState[selectedGoal].initiatives[selectedInitiative];
-
-    // Update the initiative in the initiatives dropdown
-    const initiativeOption = Array.from(initativeDropdown.options).find(
-      (option) => option.value === selectedInitiative
-    );
-    if (initiativeOption) {
-      initiativeOption.value = newName;
-      initiativeOption.textContent = newName; // Set the displayed text to the new name
-    }
-
-    // Update the graph point id for this initiative
-    const existingPoint = document.getElementById(
-      `point-${selectedInitiative}`
-    );
-    if (existingPoint) {
-      existingPoint.id = `point-${newName}`;
-    }
-
-    alert("Initiative renamed successfully!");
-
-    saveData();
-  }
-
-  // Event listeners for goal and initiative dropdowns
-  goalDropdown.addEventListener("change", updateInitiativesDropdown);
-  initativeDropdown.addEventListener("change", updateSliders);
-
-  // Event listeners for sliders
-  sliders.forEach((slider) => {
-    slider.addEventListener("input", plotPoint);
-  });
-
-  const goalColors = {
-    goal1: "#FF0000", // Red
-    goal2: "#00FF00", // Green
-    goal3: "#0000FF", // Blue
-    goal4: "#FFFF00", // Yellow
-    goal5: "#FF00FF", // Magenta
-    goal6: "#00FFFF", // Cyan
-    goal7: "#C0C0C0", // Silver
-  };
-
-  // Initialize the goal dropdown
-  initializeGoalsAndInitiatives();
-  updateGoalDropdownWithColors();
-  updateInitiativesDropdown();
-
-  function handleRegistration(event) {
-    event.preventDefault();
-  }
-
-  function handleLogin(event) {
-    event.preventDefault();
-  }
-
-  function updateGoalDropdownWithColors() {
-    const goalDropdown = document.getElementById("goal");
-    const goals = Array.from(goalDropdown.options);
-
-    goals.forEach((optionElement, index) => {
-      const goal = optionElement.value;
-      const color = goalState[goal] ? goalState[goal].color : "#FFFFFF"; // Default to white if color is not set
-
-      // Create a color box element
-      const colorBox = document.createElement("span");
-      colorBox.style.backgroundColor = color;
-      colorBox.style.width = "20px";
-      colorBox.style.height = "20px";
-      colorBox.style.display = "inline-block";
-      colorBox.style.borderRadius = "100%";
-      colorBox.style.marginLeft = "10px";
-
-      // Append the color box to the option element
-      optionElement.innerHTML = `${optionElement.text}<span>${colorBox.outerHTML}</span>`;
-    });
-  }
-
-  function initializeGoalsAndInitiatives() {
-    const goals = Array.from(goalDropdown.options).map((opt) => opt.value);
-    let goalInitiativeList = [
-      {
-        goal: "goal1",
-        initiatives: ["E.N.Data", "סרט דוקו לחשיפת המחקר ", "מדד פל״א רשותי"],
-      },
-      {
-        goal: "goal2",
-        initiatives: ["Jobeek – job week"],
-      },
-      {
-        goal: "goal3",
-        initiatives: ["MamaWork"],
-      },
-      {
-        goal: "goal4",
-        initiatives: ["מתכלל תעסוקה ", "מש״א יחד נגב", "תתחברי"],
-      },
-      {
-        goal: "goal5",
-        initiatives: ["עצמאיות בחורה", "הצלחתך, הצלחתי"],
-      },
-      {
-        goal: "goal6",
-        initiatives: ["חוגי עברית "],
-      },
-      {
-        goal: "goal7",
-        initiatives: [
-          "הדבר הבא: מורשת דימונה",
-          "הסעה ליעד הבא ",
-          "מורתי / معلمي ",
-        ],
-      },
-    ];
-
-    goals.forEach((goal) => {
-      if (!goalState[goal]) {
-        // Unique color for each goal:
-        const goalColor = goalColors[goal] || "#000000"; // Default to black if color is not set
-        goalState[goal] = { color: goalColor, initiatives: {} };
-
-        // Find the matching goal in the goalInitiativeList
-        const matchingGoal = goalInitiativeList.find((g) => g.goal === goal);
-        if (matchingGoal) {
-          matchingGoal.initiatives.forEach((initiativeName) => {
-            if (!goalState[goal].initiatives[initiativeName]) {
-              // Check if the initiative already exists before creating it
-              goalState[goal].initiatives[initiativeName] = {
-                color: goalColor,
-                x: null,
-                y: null,
-              };
-            }
-          });
-        }
-      }
-    });
-  }
-
-  function updateInitiativesDropdown() {
-    const selectedGoals = Array.from(goalDropdown.selectedOptions).map(
-      (opt) => opt.value
-    );
-    let initiatives = [];
-
-    selectedGoals.forEach((selectedGoal) => {
-      initiatives.push(
-        ...Object.keys(goalState[selectedGoal]?.initiatives || {})
-      );
-    });
-
-    // Remove duplicates
-    const uniqueInitiatives = [...new Set(initiatives)];
-
-    // Clear the initiatives dropdown
-    initativeDropdown.innerHTML = "";
-
-    // Populate the dropdown with initiatives for the selected goals
-    uniqueInitiatives.forEach((initiative) => {
+      // Add the new goal to the goal dropdown
       const option = document.createElement("option");
-      option.value = initiative;
-      option.textContent = initiative;
+      option.value = goalName;
+      option.textContent = goalName;
+      goalDropdown.appendChild(option);
+
+      // Save the data after creating the goal
+      saveData();
+    }
+
+    function deleteGoal() {
+      const selectedGoal = goalDropdown.value;
+
+      // Confirm with the user before deleting
+      const isConfirmed = window.confirm("Are you sure you want to delete this goal?");
+      if (!isConfirmed) {
+        showModal("Goal deletion cancelled.");
+        return;
+      }
+
+      // Delete the goal from the goalState object
+      delete goalState[selectedGoal];
+
+      // Remove the goal from the goal dropdown
+      const goalOption = Array.from(goalDropdown.options).find(
+        (option) => option.value === selectedGoal
+      );
+      if (goalOption) {
+        goalDropdown.removeChild(goalOption);
+      }
+
+      showModal("Goal deleted successfully");
+      saveData();
+    }
+
+
+    function editGoal() {
+      const selectedGoal = goalDropdown.value;
+
+      // Ask the user for the new name
+      const newName = prompt(
+        `Rename the goal "${selectedGoal}". Please enter the new name:`
+      );
+
+      if (!newName || newName.trim() === "") {
+        showModal("Invalid name provided. Renaming cancelled.");
+        return;
+      }
+
+      if (goalState[newName]) {
+        showModal(
+          "A goal with this name already exists. Please choose a different name."
+        );
+        return;
+      }
+
+      // Rename the goal in the goalState object
+      goalState[newName] = goalState[selectedGoal];
+      delete goalState[selectedGoal];
+
+      // Update the goal in the goal dropdown
+      const goalOption = Array.from(goalDropdown.options).find(
+        (option) => option.value === selectedGoal
+      );
+      if (goalOption) {
+        goalOption.value = newName;
+        goalOption.textContent = newName;
+      }
+
+      showModal("Goal renamed successfully!");
+      saveData();
+    }
+
+    function showModal(message) {
+      alert(message);
+    }
+
+    function createInitiative() {
+      const selectedGoals = Array.from(goalDropdown.selectedOptions).map(
+        (opt) => opt.value
+      );
+
+      // Check if at least one goal is selected
+      if (selectedGoals.length === 0) {
+        showModal("Please select at least one goal first!");
+        return;
+      }
+
+      // Ask the user for the name
+      const initiativeName = prompt(
+        "Please enter the name of the new initiative"
+      );
+      if (!initiativeName) {
+        showModal("An initiative must have a name");
+        return;
+      }
+
+      selectedGoals.forEach((selectedGoal) => {
+        if (!goalState[selectedGoal]) {
+          // Unique color
+          const goalColor = goalColors[selectedGoal] || "#000000"; // Default to white if color is not set
+          goalState[selectedGoal] = { color: goalColor, initiatives: {} };
+        }
+
+        // Check if name is already existing
+        if (goalState[selectedGoal].initiatives[initiativeName]) {
+          showModal(
+            `The name "${initiativeName}" already exists under the selected goal(s). Please choose a different name.`
+          );
+          return;
+        }
+
+        // Add the new initiative to the goalState object
+        goalState[selectedGoal].initiatives[initiativeName] = {
+          color: goalState[selectedGoal].color, // Use the color from the corresponding goal
+          x: null,
+          y: null,
+        };
+      });
+
+      // Add the new initiative to the initiatives dropdown
+      const option = document.createElement("option");
+      option.value = initiativeName;
+      option.textContent = initiativeName;
       initativeDropdown.appendChild(option);
-    });
 
-    // Clear all points from the graph
-    clearGraph();
-
-    // Re-plot the points for the selected goals' initiatives
-    selectedGoals.forEach((selectedGoal) => {
-      const goalInitiatives = Object.keys(
-        goalState[selectedGoal]?.initiatives || {}
-      );
-      goalInitiatives.forEach((initiative) => {
-        if (
-          goalState[selectedGoal].initiatives &&
-          goalState[selectedGoal].initiatives[initiative] &&
-          goalState[selectedGoal].initiatives[initiative].x !== null &&
-          goalState[selectedGoal].initiatives[initiative].y !== null
-        ) {
-          plotStoredPoint(
-            initiative,
-            goalState[selectedGoal].initiatives[initiative].x,
-            goalState[selectedGoal].initiatives[initiative].y,
-            goalState[selectedGoal].initiatives[initiative].color,
-            selectedGoal // Pass the current goal here
-          );
-        }
+      // Optionally, reset the sliders
+      sliders.forEach((slider) => {
+        slider.value = slider.min;
       });
-    });
-  }
 
-  function replotPoints() {
-    const goals = Array.from(goalDropdown.selectedOptions).map(
-      (opt) => opt.value
-    );
-    console.log("Replotting points for goals:", goals);
-    clearGraph();
-    goals.forEach((goal) => {
-      const initiatives = Object.keys(goalState[goal]?.initiatives || {});
-      initiatives.forEach((initiative) => {
-        const initiativeData = goalState[goal]?.initiatives[initiative];
-        if (
-          initiativeData &&
-          initiativeData.x !== null &&
-          initiativeData.y !== null
-        ) {
-          plotStoredPoint(
-            initiative,
-            initiativeData.x,
-            initiativeData.y,
-            initiativeData.color,
-            goal // Pass the current goal here
-          );
-        }
-      });
-    });
-  }
-
-  function clearGraph() {
-    const points = document.querySelectorAll("#graphContainer > div");
-    points.forEach((point) => {
-      graphContainer.removeChild(point);
-    });
-  }
-  // Existing function to plot points
-  function plotStoredPoint(initiative, x, y, color, currentGoal) {
-    if (
-      !goalState[currentGoal] ||
-      !goalState[currentGoal].initiatives ||
-      !goalState[currentGoal].initiatives[initiative]
-    ) {
-      console.error("No data for the current goal:", currentGoal);
-      return;
+      // Save the data after creating the initiative
+      saveData();
     }
 
-    // Get the initiative data using the currentGoal parameter
-    const initiativeData = goalState[currentGoal].initiatives[initiative];
+    function deleteInitiative() {
+      const selectedGoal = goalDropdown.value;
+      const selectedInitiative = initativeDropdown.value;
 
-    // Create a new div element to represent the point
-    const point = document.createElement("div");
-    point.id = `point-${initiative}`;
-    point.style.width = "15px";
-    point.style.height = "15px";
-    point.style.backgroundColor = goalState[currentGoal].color; // Use the color assigned to the current goal
-    point.style.borderRadius = "50%";
-    point.style.position = "absolute";
-    point.style.transform = "translate(-50%, -50%)"; // This centers the dot on the exact coordinates
+      if (
+        !goalState[selectedGoal] ||
+        !goalState[selectedGoal].initiatives[selectedInitiative]
+      ) {
+        showModal("יש לבחור יוזמה למחיקה");
+        return;
+      }
 
-    // Calculate the adjusted x and y values based on the graph container dimensions
-    const adjustedX = (graphContainer.clientWidth - 10) * (x / 50);
-    const adjustedY = (graphContainer.clientHeight - 10) * (1 - y / 50); // Subtracting from 1 to invert the Y-axis
+      // Confirm with the user before deleting
+      const isConfirmed = window.confirm("האם אתם בטוחים שאתם רוצים למחוק?");
+      if (!isConfirmed) {
+        showModal("Initiative deletion cancelled.");
+        return;
+      }
 
-    // Set the left and top style properties to position the point based on the adjusted x and y values
-    point.style.left = `${adjustedX}px`;
-    point.style.top = `${adjustedY}px`;
+      // Delete the initiative from the goalState object
+      delete goalState[selectedGoal].initiatives[selectedInitiative];
 
-    // Create a new div element to display the initiative name below the point
-    const text = document.createElement("div");
-    text.textContent = initiative;
-    text.style.position = "absolute";
-    text.style.transform = "translate(-50%, -50%)";
-    text.style.left = "50%";
-    text.style.bottom = "-20px";
-    text.style.fontSize = "18px"; // Increase this value to make the text larger
-    text.style.color = "#000";
-
-    // Append the text element as a child of the point element
-    point.appendChild(text);
-
-    // Append the point element as a child of the graph container
-    graphContainer.appendChild(point);
-  }
-
-  // plotting points on the graph based on the selected goal and initiative.
-  function plotPoint() {
-    const selectedGoal = goalDropdown.value;
-    const selectedInitiative = initativeDropdown.value;
-
-    // Ensure the selected goal exists in the goalState object
-    if (!goalState[selectedGoal]) {
-      console.error(`Goal "${selectedGoal}" does not exist in the goalState.`);
-      return;
-    }
-
-    // Ensure the selected initiative exists under the selected goal in the goalState object
-    if (
-      !goalState[selectedGoal].initiatives ||
-      !goalState[selectedGoal].initiatives[selectedInitiative]
-    ) {
-      console.error(
-        `Initiative "${selectedInitiative}" does not exist under the goal "${selectedGoal}" in the goalState.`
+      // Remove the initiative from the initiatives dropdown
+      const initiativeOption = Array.from(initativeDropdown.options).find(
+        (option) => option.value === selectedInitiative
       );
-      return;
+      if (initiativeOption) {
+        initativeDropdown.removeChild(initiativeOption);
+      }
+
+      // Clear the graph point for this initiative
+      const existingPoint = document.getElementById(
+        `point-${selectedInitiative}`
+      );
+      if (existingPoint) {
+        graphContainer.removeChild(existingPoint);
+      }
+
+      showModal("היוזמה נמחקה בהצלחה");
+      saveData();
     }
 
-    // Get the stored configurations for the selected initiative
-    const initiativeData =
-      goalState[selectedGoal].initiatives[selectedInitiative];
 
-    let x = 0,
-      y = 0;
+    function renameInitiative() {
+      const selectedGoal = goalDropdown.value;
+      const selectedInitiative = initativeDropdown.value;
 
+      if (
+        !goalState[selectedGoal] ||
+        !goalState[selectedGoal].initiatives[selectedInitiative]
+      ) {
+        showModal("Please select a valid initiative to rename!");
+        return;
+      }
+
+      // Ask the user for the new name
+      const newName = prompt(
+        `Rename the initiative "${selectedInitiative}". Please enter the new name:`
+      );
+
+      if (!newName || newName.trim() === "") {
+        alert("Invalid name provided. Renaming cancelled.");
+        return;
+      }
+
+      if (goalState[selectedGoal][newName]) {
+        alert(
+          "An initiative with this name already exists. Please choose a different name."
+        );
+        return;
+      }
+
+      // Rename the initiative in the goalState object
+      goalState[selectedGoal].initiatives[newName] =
+        goalState[selectedGoal].initiatives[selectedInitiative];
+      delete goalState[selectedGoal].initiatives[selectedInitiative];
+
+      // Update the initiative in the initiatives dropdown
+      const initiativeOption = Array.from(initativeDropdown.options).find(
+        (option) => option.value === selectedInitiative
+      );
+      if (initiativeOption) {
+        initiativeOption.value = newName;
+        initiativeOption.textContent = newName; // Set the displayed text to the new name
+      }
+
+      // Update the graph point id for this initiative
+      const existingPoint = document.getElementById(
+        `point-${selectedInitiative}`
+      );
+      if (existingPoint) {
+        existingPoint.id = `point-${newName}`;
+      }
+
+      alert("Initiative renamed successfully!");
+
+      saveData();
+    }
+
+    // Event listeners for goal and initiative dropdowns
+    goalDropdown.addEventListener("change", updateInitiativesDropdown);
+    initativeDropdown.addEventListener("change", updateSliders);
+
+    // Event listeners for sliders
     sliders.forEach((slider) => {
-      let sliderValue = parseInt(slider.value);
-      if (
-        slider.id === "param2" ||
-        slider.id === "param4"
-      ) {
-        sliderValue = 100 - sliderValue;
-      }
-
-      if (
-        slider.id.includes("param1") ||
-        slider.id.includes("param2") ||
-        slider.id.includes("param3") ||
-        slider.id.includes("param4") ||
-        slider.id.includes("param5")
-      ) {
-        x += sliderValue;
-      } else if (
-        slider.id.includes("param6") ||
-        slider.id.includes("param7") ||
-        slider.id.includes("param8") ||
-        slider.id.includes("param9") ||
-        slider.id.includes("param10")
-      ) {
-        y += sliderValue;
-      }
+      slider.addEventListener("input", plotPoint);
     });
 
-    x /= 10;
-    y /= 10;
-
-    const existingPoint = document.getElementById(
-      `point-${selectedInitiative}`
-    );
-    if (existingPoint) {
-      graphContainer.removeChild(existingPoint);
-    }
-
-    plotStoredPoint(
-      selectedInitiative,
-      x,
-      y,
-      goalState[selectedGoal].color,
-      selectedGoal
-    );
-
-    document.getElementById("xValueDisplay").textContent = x.toFixed(0);
-    document.getElementById("yValueDisplay").textContent = y.toFixed(0);
-
-    const sum = x + y;
-    const meanX = x / 5
-    const meanY = y / 5
-
-
-    document.getElementById("sum").textContent = sum.toFixed(0);
-    document.getElementById("meanX").textContent = meanX.toFixed(0);
-    document.getElementById("meanY").textContent = meanY.toFixed(0);
-
-    goalState[selectedGoal].initiatives[selectedInitiative].x = x;
-    goalState[selectedGoal].initiatives[selectedInitiative].y = y;
-
-    // Save the current slider values to the initialConfig property
-    goalState[selectedGoal].initiatives[selectedInitiative].initialConfig = {
-      sliders: Array.from(sliders).map((slider) => slider.value),
+    const goalColors = {
+      goal1: "#FF0000", // Red
+      goal2: "#00FF00", // Green
+      goal3: "#0000FF", // Blue
+      goal4: "#FFFF00", // Yellow
+      goal5: "#FF00FF", // Magenta
+      goal6: "#00FFFF", // Cyan
+      goal7: "#C0C0C0", // Silver
     };
 
-    saveData();
-  }
+    // Initialize the goal dropdown
+    initializeGoalsAndInitiatives();
+    updateGoalDropdownWithColors();
+    updateInitiativesDropdown();
 
-  function updateSliders() {
-    const selectedGoal = goalDropdown.value;
-    const selectedInitiative = initativeDropdown.value;
-  
-    // Check if the selected goal and initiative exist in the goalState object
-    if (
-      goalState[selectedGoal] &&
-      goalState[selectedGoal].initiatives &&
-      goalState[selectedGoal].initiatives[selectedInitiative]
-    ) {
-      // Get the stored configurations for the selected initiative
-      const initiativeData = goalState[selectedGoal].initiatives[selectedInitiative];
-  
-      // If the initiative has been set before (has x and y values), set the sliders accordingly
-      if (initiativeData.x !== null && initiativeData.y !== null) {
-        sliders.forEach((slider, index) => {
-          slider.value = initiativeData.initialConfig ? initiativeData.initialConfig.sliders[index] : 5;
+    function handleRegistration(event) {
+      event.preventDefault();
+    }
+
+    function handleLogin(event) {
+      event.preventDefault();
+    }
+
+    function updateGoalDropdownWithColors() {
+      const goalDropdown = document.getElementById("goal");
+      const goals = Array.from(goalDropdown.options);
+
+      goals.forEach((optionElement, index) => {
+        const goal = optionElement.value;
+        const color = goalState[goal] ? goalState[goal].color : "#FFFFFF"; // Default to white if color is not set
+
+        // Create a color box element
+        const colorBox = document.createElement("span");
+        colorBox.style.backgroundColor = color;
+        colorBox.style.width = "20px";
+        colorBox.style.height = "20px";
+        colorBox.style.display = "inline-block";
+        colorBox.style.borderRadius = "100%";
+        colorBox.style.marginLeft = "10px";
+
+        // Append the color box to the option element
+        optionElement.innerHTML = `${optionElement.text}<span>${colorBox.outerHTML}</span>`;
+      });
+    }
+
+    function initializeGoalsAndInitiatives() {
+      const goals = Array.from(goalDropdown.options).map((opt) => opt.value);
+      let goalInitiativeList = [
+        {
+          goal: "goal1",
+          initiatives: ["E.N.Data", "סרט דוקו לחשיפת המחקר ", "מדד פל״א רשותי"],
+        },
+        {
+          goal: "goal2",
+          initiatives: ["Jobeek – job week"],
+        },
+        {
+          goal: "goal3",
+          initiatives: ["MamaWork"],
+        },
+        {
+          goal: "goal4",
+          initiatives: ["מתכלל תעסוקה ", "מש״א יחד נגב", "תתחברי"],
+        },
+        {
+          goal: "goal5",
+          initiatives: ["עצמאיות בחורה", "הצלחתך, הצלחתי"],
+        },
+        {
+          goal: "goal6",
+          initiatives: ["חוגי עברית "],
+        },
+        {
+          goal: "goal7",
+          initiatives: [
+            "הדבר הבא: מורשת דימונה",
+            "הסעה ליעד הבא ",
+            "מורתי / معلمي ",
+          ],
+        },
+      ];
+
+      goals.forEach((goal) => {
+        if (!goalState[goal]) {
+          // Unique color for each goal:
+          const goalColor = goalColors[goal] || "#000000"; // Default to black if color is not set
+          goalState[goal] = { color: goalColor, initiatives: {} };
+
+          // Find the matching goal in the goalInitiativeList
+          const matchingGoal = goalInitiativeList.find((g) => g.goal === goal);
+          if (matchingGoal) {
+            matchingGoal.initiatives.forEach((initiativeName) => {
+              if (!goalState[goal].initiatives[initiativeName]) {
+                // Check if the initiative already exists before creating it
+                goalState[goal].initiatives[initiativeName] = {
+                  color: goalColor,
+                  x: null,
+                  y: null,
+                };
+              }
+            });
+          }
+        }
+      });
+    }
+
+    function updateInitiativesDropdown() {
+      const selectedGoals = Array.from(goalDropdown.selectedOptions).map(
+        (opt) => opt.value
+      );
+      let initiatives = [];
+
+      selectedGoals.forEach((selectedGoal) => {
+        initiatives.push(
+          ...Object.keys(goalState[selectedGoal]?.initiatives || {})
+        );
+      });
+
+      // Remove duplicates
+      const uniqueInitiatives = [...new Set(initiatives)];
+
+      // Clear the initiatives dropdown
+      initativeDropdown.innerHTML = "";
+
+      // Populate the dropdown with initiatives for the selected goals
+      uniqueInitiatives.forEach((initiative) => {
+        const option = document.createElement("option");
+        option.value = initiative;
+        option.textContent = initiative;
+        initativeDropdown.appendChild(option);
+      });
+
+      // Clear all points from the graph
+      clearGraph();
+
+      // Re-plot the points for the selected goals' initiatives
+      selectedGoals.forEach((selectedGoal) => {
+        const goalInitiatives = Object.keys(
+          goalState[selectedGoal]?.initiatives || {}
+        );
+        goalInitiatives.forEach((initiative) => {
+          if (
+            goalState[selectedGoal].initiatives &&
+            goalState[selectedGoal].initiatives[initiative] &&
+            goalState[selectedGoal].initiatives[initiative].x !== null &&
+            goalState[selectedGoal].initiatives[initiative].y !== null
+          ) {
+            plotStoredPoint(
+              initiative,
+              goalState[selectedGoal].initiatives[initiative].x,
+              goalState[selectedGoal].initiatives[initiative].y,
+              goalState[selectedGoal].initiatives[initiative].color,
+              selectedGoal // Pass the current goal here
+            );
+          }
         });
+      });
+    }
+
+    function replotPoints() {
+      const goals = Array.from(goalDropdown.selectedOptions).map(
+        (opt) => opt.value
+      );
+      console.log("Replotting points for goals:", goals);
+      clearGraph();
+      goals.forEach((goal) => {
+        const initiatives = Object.keys(goalState[goal]?.initiatives || {});
+        initiatives.forEach((initiative) => {
+          const initiativeData = goalState[goal]?.initiatives[initiative];
+          if (
+            initiativeData &&
+            initiativeData.x !== null &&
+            initiativeData.y !== null
+          ) {
+            plotStoredPoint(
+              initiative,
+              initiativeData.x,
+              initiativeData.y,
+              initiativeData.color,
+              goal // Pass the current goal here
+            );
+          }
+        });
+      });
+    }
+
+    function clearGraph() {
+      const points = document.querySelectorAll("#graphContainer > div");
+      points.forEach((point) => {
+        graphContainer.removeChild(point);
+      });
+    }
+    // Existing function to plot points
+    function plotStoredPoint(initiative, x, y, color, currentGoal) {
+      if (
+        !goalState[currentGoal] ||
+        !goalState[currentGoal].initiatives ||
+        !goalState[currentGoal].initiatives[initiative]
+      ) {
+        console.error("No data for the current goal:", currentGoal);
+        return;
+      }
+
+      // Get the initiative data using the currentGoal parameter
+      const initiativeData = goalState[currentGoal].initiatives[initiative];
+
+      // Create a new div element to represent the point
+      const point = document.createElement("div");
+      point.id = `point-${initiative}`;
+      point.style.width = "15px";
+      point.style.height = "15px";
+      point.style.backgroundColor = goalState[currentGoal].color; // Use the color assigned to the current goal
+      point.style.borderRadius = "50%";
+      point.style.position = "absolute";
+      point.style.transform = "translate(-50%, -50%)"; // This centers the dot on the exact coordinates
+
+      // Calculate the adjusted x and y values based on the graph container dimensions
+      const adjustedX = (graphContainer.clientWidth - 10) * (x / 50);
+      const adjustedY = (graphContainer.clientHeight - 10) * (1 - y / 50); // Subtracting from 1 to invert the Y-axis
+
+      // Set the left and top style properties to position the point based on the adjusted x and y values
+      point.style.left = `${adjustedX}px`;
+      point.style.top = `${adjustedY}px`;
+
+      // Create a new div element to display the initiative name below the point
+      const text = document.createElement("div");
+      text.textContent = initiative;
+      text.style.position = "absolute";
+      text.style.transform = "translate(-50%, -50%)";
+      text.style.left = "50%";
+      text.style.bottom = "-20px";
+      text.style.fontSize = "18px"; // Increase this value to make the text larger
+      text.style.color = "#000";
+
+      // Append the text element as a child of the point element
+      point.appendChild(text);
+
+      // Append the point element as a child of the graph container
+      graphContainer.appendChild(point);
+    }
+
+    // plotting points on the graph based on the selected goal and initiative.
+    function plotPoint() {
+      const selectedGoal = goalDropdown.value;
+      const selectedInitiative = initativeDropdown.value;
+
+      // Ensure the selected goal exists in the goalState object
+      if (!goalState[selectedGoal]) {
+        console.error(`Goal "${selectedGoal}" does not exist in the goalState.`);
+        return;
+      }
+
+      // Ensure the selected initiative exists under the selected goal in the goalState object
+      if (
+        !goalState[selectedGoal].initiatives ||
+        !goalState[selectedGoal].initiatives[selectedInitiative]
+      ) {
+        console.error(
+          `Initiative "${selectedInitiative}" does not exist under the goal "${selectedGoal}" in the goalState.`
+        );
+        return;
+      }
+
+      // Get the stored configurations for the selected initiative
+      const initiativeData =
+        goalState[selectedGoal].initiatives[selectedInitiative];
+
+      let x = 0,
+        y = 0;
+
+      sliders.forEach((slider) => {
+        let sliderValue = parseInt(slider.value);
+        if (
+          slider.id === "param2" ||
+          slider.id === "param4"
+        ) {
+          sliderValue = 100 - sliderValue;
+        }
+
+        if (
+          slider.id.includes("param1") ||
+          slider.id.includes("param2") ||
+          slider.id.includes("param3") ||
+          slider.id.includes("param4") ||
+          slider.id.includes("param5")
+        ) {
+          x += sliderValue;
+        } else if (
+          slider.id.includes("param6") ||
+          slider.id.includes("param7") ||
+          slider.id.includes("param8") ||
+          slider.id.includes("param9") ||
+          slider.id.includes("param10")
+        ) {
+          y += sliderValue;
+        }
+      });
+
+      x /= 10;
+      y /= 10;
+
+      const existingPoint = document.getElementById(
+        `point-${selectedInitiative}`
+      );
+      if (existingPoint) {
+        graphContainer.removeChild(existingPoint);
+      }
+
+      plotStoredPoint(
+        selectedInitiative,
+        x,
+        y,
+        goalState[selectedGoal].color,
+        selectedGoal
+      );
+
+      document.getElementById("xValueDisplay").textContent = x.toFixed(0);
+      document.getElementById("yValueDisplay").textContent = y.toFixed(0);
+
+      const sum = x + y;
+      const meanX = x / 5
+      const meanY = y / 5
+
+
+      document.getElementById("sum").textContent = sum.toFixed(0);
+      document.getElementById("meanX").textContent = meanX.toFixed(0);
+      document.getElementById("meanY").textContent = meanY.toFixed(0);
+
+      goalState[selectedGoal].initiatives[selectedInitiative].x = x;
+      goalState[selectedGoal].initiatives[selectedInitiative].y = y;
+
+      // Save the current slider values to the initialConfig property
+      goalState[selectedGoal].initiatives[selectedInitiative].initialConfig = {
+        sliders: Array.from(sliders).map((slider) => slider.value),
+      };
+
+      saveData();
+    }
+
+    function updateSliders() {
+      const selectedGoal = goalDropdown.value;
+      const selectedInitiative = initativeDropdown.value;
+
+      // Check if the selected goal and initiative exist in the goalState object
+      if (
+        goalState[selectedGoal] &&
+        goalState[selectedGoal].initiatives &&
+        goalState[selectedGoal].initiatives[selectedInitiative]
+      ) {
+        // Get the stored configurations for the selected initiative
+        const initiativeData = goalState[selectedGoal].initiatives[selectedInitiative];
+
+        // If the initiative has been set before (has x and y values), set the sliders accordingly
+        if (initiativeData.x !== null && initiativeData.y !== null) {
+          sliders.forEach((slider, index) => {
+            slider.value = initiativeData.initialConfig ? initiativeData.initialConfig.sliders[index] : 5;
+          });
+        } else {
+          // If the initiative hasn't been set before, set all sliders to 5
+          sliders.forEach((slider) => {
+            slider.value = 5;
+          });
+          // Trigger the plotPoint function to set the dot in the middle of the graph
+          plotPoint();
+        }
       } else {
-        // If the initiative hasn't been set before, set all sliders to 5
+        // If the initiative doesn't exist, set all sliders to 5
         sliders.forEach((slider) => {
           slider.value = 5;
         });
-        // Trigger the plotPoint function to set the dot in the middle of the graph
-        plotPoint();
       }
-    } else {
-      // If the initiative doesn't exist, set all sliders to 5
-      sliders.forEach((slider) => {
-        slider.value = 5;
+    }
+
+
+
+
+
+    // Get the dropdown element
+    const initiativeDropdown = document.getElementById("initiative");
+
+    // Get the span element where the current initiative will be displayed
+    const currentInitiativeSpan = document.getElementById("currentInitiative");
+
+    // Function to update the current initiative
+    function updateCurrentInitiative() {
+      const selectedOption = initiativeDropdown.options[initiativeDropdown.selectedIndex].text;
+      currentInitiativeSpan.textContent = "יוזמה: " + selectedOption;
+    }
+
+    // Update the current initiative when the page loads
+    updateCurrentInitiative();
+
+    // Add an event listener to the dropdown
+    initiativeDropdown.addEventListener("change", updateCurrentInitiative);
+
+
+
+    // Function to load saved parameter names from localStorage
+    function loadSavedParameterNames() {
+      document.querySelectorAll(".rename-target").forEach((spanElement) => {
+        const paramId = spanElement.closest("tr").querySelector(".slider").id;
+        const savedName = localStorage.getItem(paramId);
+        if (savedName) {
+          spanElement.textContent = savedName;
+        }
       });
     }
-  }
-    
-  
 
-  
+    // Load saved parameter names when the page loads
+    window.addEventListener("DOMContentLoaded", loadSavedParameterNames);
 
-  // Get the dropdown element
-  const initiativeDropdown = document.getElementById("initative");
-
-  // Get the span element where the current initiative will be displayed
-  const currentInitiativeSpan = document.getElementById("currentInitiative");
-
-  // Function to update the current initiative
-  function updateCurrentInitiative() {
-    const selectedOption = initiativeDropdown.options[initiativeDropdown.selectedIndex].text;
-    currentInitiativeSpan.textContent = "יוזמה: " + selectedOption;
-  }
-
-  // Update the current initiative when the page loads
-  updateCurrentInitiative();
-
-  // Add an event listener to the dropdown
-  initiativeDropdown.addEventListener("change", updateCurrentInitiative);
-
-
-
-  // Function to load saved parameter names from localStorage
-  function loadSavedParameterNames() {
-    document.querySelectorAll(".rename-target").forEach((spanElement) => {
-      const paramId = spanElement.closest("tr").querySelector(".slider").id;
-      const savedName = localStorage.getItem(paramId);
-      if (savedName) {
-        spanElement.textContent = savedName;
-      }
-    });
-  }
-
-  // Load saved parameter names when the page loads
-  window.addEventListener("DOMContentLoaded", loadSavedParameterNames);
-
-  // Edit the names of the parameters
-  document.querySelectorAll(".edit-icon").forEach((icon) => {
-    icon.addEventListener("click", (e) => {
-      const parentElement = e.target.closest("td");
-      if (parentElement) {
-        const spanElement = parentElement.querySelector(".rename-target");
-        const paramId = parentElement.closest("tr").querySelector(".slider").id;
-        const newName = prompt(
-          "Enter a new name:",
-          spanElement.textContent.trim()
-        );
-        if (newName && newName.length <= 60) {
-          spanElement.textContent = newName;
-          // Save the new name to localStorage
-          localStorage.setItem(paramId, newName);
+    // Edit the names of the parameters
+    document.querySelectorAll(".edit-icon").forEach((icon) => {
+      icon.addEventListener("click", (e) => {
+        const parentElement = e.target.closest("td");
+        if (parentElement) {
+          const spanElement = parentElement.querySelector(".rename-target");
+          const paramId = parentElement.closest("tr").querySelector(".slider").id;
+          const newName = prompt(
+            "Enter a new name:",
+            spanElement.textContent.trim()
+          );
+          if (newName && newName.length <= 60) {
+            spanElement.textContent = newName;
+            // Save the new name to localStorage
+            localStorage.setItem(paramId, newName);
+          }
+        } else {
+          console.error("No parent element with the specified class found");
         }
-      } else {
-        console.error("No parent element with the specified class found");
-      }
+      });
     });
-  });
 
-  //----------------------------------------------------------------
-  loadData();
-});
+    //----------------------------------------------------------------
+    loadData();
+  });
 
 
 
   return (
     <div className="App">
 
-      <body>
+
         <div className='container'>
           <div className='left'>
 
@@ -810,7 +810,9 @@ document.addEventListener("DOMContentLoaded", function () {
               <h3>בחירת יוזמה</h3>
               <div>
                 <button id='deleteInitiative'>מחיקת יוזמה</button>
-                <button id='renameinitiative'>שינוי שם יוזמה</button>
+          
+                <button id="renameInitiative">Rename Initiative</button>
+
                 <button id='createInitiative'>עריכת שם מטרה</button>
 
                 <select id="initiative"></select>
@@ -826,77 +828,75 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
 
                 <table>
-                  <tr>
-                    <td>
-                      <div>
-                        <span>1</span>
-                        <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks'></input>
-                        <span>10</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className='rename-target'>מימון ומשאבים</span>
-                      <span class="edit-icon">✏️</span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div>
-                        <span>1</span>
-                        <input type='range' min={1} max={100} className='slider' id="param2" list='tickmarks'></input>
-
-                        <span>10</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className='rename-target'>מורכבות וזמן הוצאה לפועל</span>
-                      <span class="edit-icon">✏️</span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div>
-                        <span>1</span>
-                        <input type='range' min={1} max={100} className='slider' id="param3" list='tickmarks'></input>
-                        <span>10</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className='rename-target'>מידת מחויבות האונר והארגון</span>
-                      <span class="edit-icon">✏️</span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div>
-                        <span>1</span>
-                        <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks'></input>
-                        <span>10</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className='rename-target'>מורכבות בירוקרטית וחוקתית</span>
-                      <span class="edit-icon">✏️</span>
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td>
-                      <div>
-                        <span>1</span>
-                        <input type='range' min={1} max={100} className='slider' id="param5" list='tickmarks'></input>
-                        <span>10</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className='rename-target'>מידת גיוס ורתימת שותפים </span>
-                      <span class="edit-icon">✏️</span>
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div>
+                          <span>1</span>
+                          <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks' />
+                          <span>10</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='rename-target'>מימון ומשאבים</span>
+                        <span className="edit-icon">✏️</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <span>1</span>
+                          <input type='range' min={1} max={100} className='slider' id="param2" list='tickmarks' />
+                          <span>10</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='rename-target'>מורכבות וזמן הוצאה לפועל</span>
+                        <span className="edit-icon">✏️</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <span>1</span>
+                          <input type='range' min={1} max={100} className='slider' id="param3" list='tickmarks' />
+                          <span>10</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='rename-target'>מידת מחויבות האונר והארגון</span>
+                        <span className="edit-icon">✏️</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <span>1</span>
+                          <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks' />
+                          <span>10</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='rename-target'>מורכבות בירוקרטית וחוקתית</span>
+                        <span className="edit-icon">✏️</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div>
+                          <span>1</span>
+                          <input type='range' min={1} max={100} className='slider' id="param5" list='tickmarks' />
+                          <span>10</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className='rename-target'>מידת גיוס ורתימת שותפים </span>
+                        <span className="edit-icon">✏️</span>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
+
 
                 <datalist id='tickmarks'>
                   <option value="10"></option>
@@ -920,7 +920,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
 
                 <table>
-
+                <tbody>
                   <tr>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -1026,6 +1026,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       <span className="edit-icon">✏️</span>
                     </td>
                   </tr>
+                  </tbody>
                 </table>
               </div>
 
@@ -1108,7 +1109,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           {/* classname container */}
         </div>
-      </body>
+
 
       <footer>
         <p>All rights reserved to Yaniv Almagor &copy</p>
