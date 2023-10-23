@@ -1,14 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-
+import LoginComponent from './LoginComponent';
 function App() {
 
-  // import { createClient } from '@supabase/supabase-js'
 
 
-  // const supabaseUrl = 'https://qngmdybyrtcajqjohpnt.supabase.co'
-  // const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFuZ21keWJ5cnRjYWpxam9ocG50Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTYzMjE2NzEsImV4cCI6MjAxMTg5NzY3MX0.Jd6gPs09nEaWIIqsmO4ysYYzaW7hgQtRSxJ4EYRsRoA'
-  // const supabase = createClient(supabaseUrl, supabaseKey)
 
   // Initialize an empty object to store the state of goals and initiatives
   let goalState = {};
@@ -786,140 +782,145 @@ function App() {
   return (
     <div className="App">
 
+      <div>
+        <LoginComponent />
+      </div>
+      <div className='container'>
+        <div className='left'>
 
-        <div className='container'>
-          <div className='left'>
+          <div className='black-background'>
+            <h2> בחירת מטרה</h2>
+            <select id='goal'>
+              <option value="goal1"> חשיפה ומודעות למחקר ונתוני התעסוקה</option>
+              <option value="goal2"> חשיפה להזדמנויות, תנאי העסקה ומצב השוק</option>
+              <option value="goal3"> התפתחות והתקדמות מקצועית לצד האמהות</option>
+              <option value="goal4"> רשת אזורית לקידום ופיתוח מקצועי לתעסוקה איכותית</option>
+              <option value="goal5"> סביבה תומכת, מעודדת ונותנת השראה והשפעה בדרך לתעסוקה איכותית</option>
+              <option value="goal6">צמצום פערי השפה בחברה הבדואית לטובת קידום תעסוקת נשים</option>
+              <option value="goal7"> ניעות תעסוקתית לאורך הקריירה בחייה של אישה</option>
+            </select>
+            <div>
+              <button id='createGoal'>יצירת מטרה חדשה</button>
+              <button id='deleteGoal'>מחיקת מטרה נוכחית</button>
+              <button id='editGoal'>עריכת שם מטרה</button>
+            </div>
 
-            <div className='black-background'>
-              <h2> בחירת מטרה</h2>
-              <select id='goal'>
-                <option value="goal1"> חשיפה ומודעות למחקר ונתוני התעסוקה</option>
-                <option value="goal2"> חשיפה להזדמנויות, תנאי העסקה ומצב השוק</option>
-                <option value="goal3"> התפתחות והתקדמות מקצועית לצד האמהות</option>
-                <option value="goal4"> רשת אזורית לקידום ופיתוח מקצועי לתעסוקה איכותית</option>
-                <option value="goal5"> סביבה תומכת, מעודדת ונותנת השראה והשפעה בדרך לתעסוקה איכותית</option>
-                <option value="goal6">צמצום פערי השפה בחברה הבדואית לטובת קידום תעסוקת נשים</option>
-                <option value="goal7"> ניעות תעסוקתית לאורך הקריירה בחייה של אישה</option>
-              </select>
-              <div>
-                <button id='createGoal'>יצירת מטרה חדשה</button>
-                <button id='deleteGoal'>מחיקת מטרה נוכחית</button>
-                <button id='editGoal'>עריכת שם מטרה</button>
+            <h3>בחירת יוזמה</h3>
+            <div>
+              <button id='deleteInitiative'>מחיקת יוזמה</button>
+
+              <button id="renameInitiative">עריכת יוזמה</button>
+
+              <button id='createInitiative'>יצירת מטרה חדשה</button>
+
+              <select id="initiative"></select>
+            </div>
+
+            <div className='green-background'>
+
+              <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'space-between' }}>
+                <h4>ישימות נמוכה</h4>
+                <h4>ישימות גבוהה</h4>
+                <h2>מדדי ישימות</h2>
+              </div>
+              <table>
+                <tbody>
+
+                  {/* demo --> */}
+                  <tr>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>1</span>
+                        <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks' style={{ flexGrow: 1, margin: '0 10px' }} />
+                        <span>10</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='rename-target'>מימון ומשאבים</span>
+                      <span className="edit-icon">✏️</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>1</span>
+                        <input type='range' min={1} max={100} className='slider' id="param2" list='tickmarks' style={{ flexGrow: 1, margin: '0 10px' }} />
+                        <span>10</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='rename-target'>מורכבות וזמן עד הוצאה לפועל</span>
+                      <span className="edit-icon">✏️</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>1</span>
+                        <input type='range' min={1} max={100} className='slider' id="param3" list='tickmarks' style={{ flexGrow: 1, margin: '0 10px' }} />
+                        <span>10</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='rename-target'>מידת מחויבות האונר והארגון</span>
+                      <span className="edit-icon">✏️</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>1</span>
+                        <input type='range' min={1} max={100} className='slider' id="param4" list='tickmarks' style={{ flexGrow: 1, margin: '0 10px' }} />
+                        <span>10</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='rename-target'>מורכבות בירוקרטית וחוקתית</span>
+                      <span className="edit-icon">✏️</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <span>1</span>
+                        <input type='range' min={1} max={100} className='slider' id="param5" list='tickmarks' style={{ flexGrow: 1, margin: '0 10px' }} />
+                        <span>10</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span className='rename-target'>מידת גיוס ורתימת שותפים</span>
+                      <span className="edit-icon">✏️</span>
+                    </td>
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+
+
+              <datalist id='tickmarks'>
+                <option value="10"></option>
+                <option value="20"></option>
+                <option value="30"></option>
+                <option value="40"></option>
+                <option value="50"></option>
+                <option value="60"></option>
+                <option value="70"></option>
+                <option value="80"></option>
+                <option value="90"></option>
+                <option value="100"></option>
+              </datalist>
+            </div>
+
+            <div className='orange-background'>
+              <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'space-between' }}>
+                <h4>אימפקט נמוך</h4>
+                <h4>אימפקט גבוה</h4>
+                <h2>מדדי אימפקט</h2>
               </div>
 
-              <h3>בחירת יוזמה</h3>
-              <div>
-                <button id='deleteInitiative'>מחיקת יוזמה</button>
-          
-                <button id="renameInitiative">Rename Initiative</button>
-
-                <button id='createInitiative'>עריכת שם מטרה</button>
-
-                <select id="initiative"></select>
-              </div>
-
-              <div className='green-background'>
-                <p></p>
-                <div>
-                  <h4>ישימות נמוכה</h4>
-                  <p></p>
-                  <h4>ישימות גבוהה</h4>
-                  <h2>מדד ישימות</h2>
-                </div>
-
-                <table>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <div>
-                          <span>1</span>
-                          <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks' />
-                          <span>10</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='rename-target'>מימון ומשאבים</span>
-                        <span className="edit-icon">✏️</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div>
-                          <span>1</span>
-                          <input type='range' min={1} max={100} className='slider' id="param2" list='tickmarks' />
-                          <span>10</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='rename-target'>מורכבות וזמן הוצאה לפועל</span>
-                        <span className="edit-icon">✏️</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div>
-                          <span>1</span>
-                          <input type='range' min={1} max={100} className='slider' id="param3" list='tickmarks' />
-                          <span>10</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='rename-target'>מידת מחויבות האונר והארגון</span>
-                        <span className="edit-icon">✏️</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div>
-                          <span>1</span>
-                          <input type='range' min={1} max={100} className='slider' id="param1" list='tickmarks' />
-                          <span>10</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='rename-target'>מורכבות בירוקרטית וחוקתית</span>
-                        <span className="edit-icon">✏️</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div>
-                          <span>1</span>
-                          <input type='range' min={1} max={100} className='slider' id="param5" list='tickmarks' />
-                          <span>10</span>
-                        </div>
-                      </td>
-                      <td>
-                        <span className='rename-target'>מידת גיוס ורתימת שותפים </span>
-                        <span className="edit-icon">✏️</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-
-
-                <datalist id='tickmarks'>
-                  <option value="10"></option>
-                  <option value="20"></option>
-                  <option value="30"></option>
-                  <option value="40"></option>
-                  <option value="50"></option>
-                  <option value="60"></option>
-                  <option value="70"></option>
-                  <option value="80"></option>
-                  <option value="90"></option>
-                  <option value="100"></option>
-                </datalist>
-              </div>
-
-              <div className='orange-background'>
-                <div style={{ textAlign: 'right', display: 'flex', justifyContent: 'space-between' }}>
-                  <h4>אימפקט נמוך</h4>
-                  <h4>אימפקט גבוה</h4>
-                  <h2>מדדי אימפקט</h2>
-                </div>
-
-                <table>
+              <table>
                 <tbody>
                   <tr>
                     <td>
@@ -1026,89 +1027,90 @@ function App() {
                       <span className="edit-icon">✏️</span>
                     </td>
                   </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <datalist id='tickmarks2'>
-                <option value={10}></option>
-                <option value={20}></option>
-                <option value={30}></option>
-                <option value={40}></option>
-                <option value={50}></option>
-                <option value={60}></option>
-                <option value={70}></option>
-                <option value={80}></option>
-                <option value={90}></option>
-                <option value={100}></option>
-              </datalist>
-            </div>
-          </div>
-
-          <div className='right'>
-
-            <div id="graph">
-              <div className="crosshair-vertical">
-                <span className="crosshair-label">
-                  <h3>אימפקט</h3>
-                </span>
-              </div>
-              <div className="crosshair-horizontal">
-                <span className="crosshair-label">
-                  <h3>יְשִׁימוּת</h3>
-                </span>
-              </div>
-
-              <div className="axis x-axis">
-                <div className="tick" style={{ '--i': 10 }}><span className="tick-label">10</span></div>
-                <div className="tick" style={{ '--i': 20 }}><span className="tick-label">20</span></div>
-                <div className="tick" style={{ '--i': 30 }}><span className="tick-label">30</span></div>
-                <div className="tick" style={{ '--i': 40 }}><span className="tick-label">40</span></div>
-                <div className="tick" style={{ '--i': 50 }}><span className="tick-label">50</span></div>
-              </div>
-              <div className="axis y-axis">
-                <div className="tick" style={{ '--i': 10 }}><span className="tick-label">10</span></div>
-                <div className="tick" style={{ '--i': 20 }}><span className="tick-label">20</span></div>
-                <div className="tick" style={{ '--i': 30 }}><span className="tick-label">30</span></div>
-                <div className="tick" style={{ '--i': 40 }}><span className="tick-label">40</span></div>
-                <div className="tick" style={{ '--i': 50 }}><span className="tick-label">50</span></div>
-              </div>
-
-              <div className="graph-text-box top-left-box">הצלחות פורצות דרך</div>
-              <div className="graph-text-box top-right-box">הצלחות בטוחות</div>
-              <div className="graph-text-box bottom-left-box">לא רלוונטי</div>
-              <div className="graph-text-box bottom-right-box">הצלחות מהירות</div>
-
-              <div id="graphContainer" style={{ position: 'relative', width: '100%', height: '100%' }}>
-                {/* Dot will be appended here */}
-              </div>
-
-              {/* graph description box */}
-              <div style={{ textAlign: 'right' }} className="graph-description-box">
-                <span id="currentInitiative" className="current-initiative">Current Initiative: </span>
-                <br />
-                ישימות <span id="xValueDisplay">0</span><br />
-                ממוצא מדד ישימות <span id="meanX">0</span><br />
-                <br />
-                אימפקט <span id="yValueDisplay">0</span><br />
-                <span id="meanY">0</span> ממוצא מדד אימפקט<br />
-                <br />
-                <span id="sum">0</span> סכום אימפקט + ישימות
-                <br />
-                {/* <button id="clearButton" onClick={clearSavedData}>מחיקת כל הנקודות שעל הגרף</button> */}
-              </div>
+                </tbody>
+              </table>
             </div>
 
-            <aside style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
-              <img src="civixLogo.PNG" alt="Civix Logo" />
-              <img src="NegevLogo.PNG" alt="Negev Logo" />
-            </aside>
-
-
-            {/* classname- right */}
+            <datalist id='tickmarks2'>
+              <option value={10}></option>
+              <option value={20}></option>
+              <option value={30}></option>
+              <option value={40}></option>
+              <option value={50}></option>
+              <option value={60}></option>
+              <option value={70}></option>
+              <option value={80}></option>
+              <option value={90}></option>
+              <option value={100}></option>
+            </datalist>
           </div>
-          {/* classname container */}
         </div>
+
+        <div className='right'>
+
+          <div id="graph">
+            <div className="crosshair-vertical">
+              <span className="crosshair-label">
+                <h3>אימפקט</h3>
+              </span>
+            </div>
+            <div className="crosshair-horizontal">
+              <span className="crosshair-label">
+                <h3>יְשִׁימוּת</h3>
+              </span>
+            </div>
+
+            <div className="axis x-axis">
+              <div className="tick" style={{ '--i': 10 }}><span className="tick-label">10</span></div>
+              <div className="tick" style={{ '--i': 20 }}><span className="tick-label">20</span></div>
+              <div className="tick" style={{ '--i': 30 }}><span className="tick-label">30</span></div>
+              <div className="tick" style={{ '--i': 40 }}><span className="tick-label">40</span></div>
+              <div className="tick" style={{ '--i': 50 }}><span className="tick-label">50</span></div>
+            </div>
+            <div className="axis y-axis">
+              <div className="tick" style={{ '--i': 10 }}><span className="tick-label">10</span></div>
+              <div className="tick" style={{ '--i': 20 }}><span className="tick-label">20</span></div>
+              <div className="tick" style={{ '--i': 30 }}><span className="tick-label">30</span></div>
+              <div className="tick" style={{ '--i': 40 }}><span className="tick-label">40</span></div>
+              <div className="tick" style={{ '--i': 50 }}><span className="tick-label">50</span></div>
+            </div>
+
+            <div className="graph-text-box top-left-box">הצלחות פורצות דרך</div>
+            <div className="graph-text-box top-right-box">הצלחות בטוחות</div>
+            <div className="graph-text-box bottom-left-box">לא רלוונטי</div>
+            <div className="graph-text-box bottom-right-box">הצלחות מהירות</div>
+
+            <div id="graphContainer" style={{ position: 'relative', width: '100%', height: '100%' }}>
+              {/* Dot will be appended here */}
+            </div>
+
+            {/* graph description box */}
+            <div style={{ textAlign: 'right' }} className="graph-description-box">
+              <span id="currentInitiative" className="current-initiative">Current Initiative: </span>
+              <br />
+              ישימות <span id="xValueDisplay">0</span><br />
+              ממוצא מדד ישימות <span id="meanX">0</span><br />
+              <br />
+              אימפקט <span id="yValueDisplay">0</span><br />
+              <span id="meanY">0</span> ממוצא מדד אימפקט<br />
+              <br />
+              <span id="sum">0</span> סכום אימפקט + ישימות
+              <br />
+              {/* <button id="clearButton" onClick={clearSavedData}>מחיקת כל הנקודות שעל הגרף</button> */}
+            </div>
+
+          </div>
+
+          <aside style={{ alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
+            <img src="civixLogo.PNG" alt="Civix Logo" />
+            <img src="NegevLogo.PNG" alt="Negev Logo" />
+          </aside>
+
+
+          {/* classname- right */}
+        </div>
+        {/* classname container */}
+      </div>
 
 
       <footer>
