@@ -1,10 +1,7 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import LoginComponent from './LoginComponent';
+import AuthComponent from './AuthComponent';
 function App() {
-
-
-
 
   // Initialize an empty object to store the state of goals and initiatives
   let goalState = {};
@@ -775,6 +772,7 @@ function App() {
 
     //----------------------------------------------------------------
     loadData();
+  
   });
 
 
@@ -783,7 +781,7 @@ function App() {
     <div className="App">
 
       <div>
-        <LoginComponent />
+        <AuthComponent />
       </div>
       <div className='container'>
         <div className='left'>
