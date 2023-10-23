@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import AuthComponent from './AuthComponent';
+import UserDetailsComponent from './UserDetailsComponent';
 function App() {
 
   // Initialize an empty object to store the state of goals and initiatives
@@ -781,7 +782,9 @@ function App() {
     <div className="App">
 
       <div>
-        <AuthComponent />
+        <h3>users:</h3>
+        {/* <AuthComponent /> */}
+        <UserDetailsComponent/>
       </div>
       <div className='container'>
         <div className='left'>
