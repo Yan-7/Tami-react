@@ -1,7 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
-import AuthComponent from './AuthComponent';
-import UserDetailsComponent from './UserDetailsComponent';
+import SignupComponent from './SignupComponent';
+import LoginComponent from './LoginComponent';
 function App() {
 
   // Initialize an empty object to store the state of goals and initiatives
@@ -782,9 +782,12 @@ function App() {
     <div className="App">
 
       <div>
-        <h3>users:</h3>
+        sign up:
+        <SignupComponent/>
+        login:
+        <LoginComponent/>
+
         {/* <AuthComponent /> */}
-        <UserDetailsComponent/>
       </div>
       <div className='container'>
         <div className='left'>
@@ -1115,7 +1118,7 @@ function App() {
 
 
       <footer>
-        <p>All rights reserved to Yaniv Almagor &copy</p>
+        <p>All rights reserved to Yaniv Almagor</p>
       </footer>
     </div>
   );
