@@ -23,6 +23,7 @@ const LoginComponent = () => {
     } else {
       setMessage('Login successful');
       setUser(user);  // Update user state
+      history.push('/initiatives');  // Redirect to initiatives page
     }
   };
 
@@ -48,6 +49,7 @@ const LoginComponent = () => {
         <div>
           <h3>User Details:</h3>
           <pre>{JSON.stringify(user, null, 2)}</pre>
+          
         </div>
       )}
     </div>

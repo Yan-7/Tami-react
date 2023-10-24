@@ -772,12 +772,14 @@ function App() {
 
     //----------------------------------------------------------------
     loadData();
-  
+    
   });
 
 
 
   return (
+
+    
     <div className="App">
 
       <div>
@@ -786,7 +788,6 @@ function App() {
         login:
         <LoginComponent/>
 
-        {/* <AuthComponent /> */}
       </div>
       <div className='container'>
         <div className='left'>
