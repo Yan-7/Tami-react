@@ -779,9 +779,9 @@ function App() {
 
   return (
 
-    
-    <div className="App">
 
+    <div className="App">
+      
       <div>
         sign up:
         <SignupComponent/>
