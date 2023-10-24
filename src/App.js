@@ -501,7 +501,6 @@ function App() {
       const goals = Array.from(goalDropdown.selectedOptions).map(
         (opt) => opt.value
       );
-      console.log("Replotting points for goals:", goals);
       clearGraph();
       goals.forEach((goal) => {
         const initiatives = Object.keys(goalState[goal]?.initiatives || {});
