@@ -23,7 +23,7 @@ const LoginComponent = () => {
     } else {
       setMessage('Login successful');
       setUser(user);  // Update user state
-      history.push('/initiatives');  // Redirect to initiatives page
+      // history.push('/initiatives');  // Redirect to initiatives page
     }
   };
 
